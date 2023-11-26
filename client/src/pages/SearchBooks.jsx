@@ -7,7 +7,6 @@ import {
   Card,
   Row
 } from 'react-bootstrap';
-
 import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
@@ -43,10 +42,6 @@ const SearchBooks = () => {
         `https://www.googleapis.com/books/v1/volumes?q=${searchInput}`
         );
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
       const { items } = await response.json();
 
       const bookData = items.map((book) => ({
@@ -78,7 +73,7 @@ const SearchBooks = () => {
 
     try {
      await saveBook({
-      variables: { newBook: {...bookToSave}},
+      variables: { newBook: { ...bookToSave } },
      });
 
       // if book successfully saves to user's account, save book id to state

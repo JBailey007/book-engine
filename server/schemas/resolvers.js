@@ -1,5 +1,6 @@
 const { User } = require("../models");
-const { signToken, AuthenticationError } = require("../utils/auth");
+const { signToken } = require("../utils/auth");
+const { AuthenticationError } = require('@apollo/server');
 
 const resolvers = {
     Query: {
@@ -8,7 +9,7 @@ const resolvers = {
                 data = await User.findOne({_id: context.user._id}).select('-__v -password');
                 return data;
             }
-            throw new AuthenticationError('you need to be logged in!');
+            throw new AuthenticationError('You need to be logged in!');
     },
 },
 Mutation: {
@@ -21,13 +22,13 @@ Mutation: {
         const user = await User.findOne({ email });
   
         if (!user) {
-          throw AuthenticationError('This user cannot be found.');
+          throw new AuthenticationError('User not found. Do you have an account?');
         }
   
         const correctPw = await user.isCorrectPassword(password);
   
         if (!correctPw) {
-          throw AuthenticationError('Incorrect Username or Password!');
+          throw new AuthenticationError('Incorrect credentials!');
         }
   
         const token = signToken(user);

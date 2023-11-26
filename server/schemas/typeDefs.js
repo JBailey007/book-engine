@@ -1,4 +1,4 @@
-const typeDefs =`
+const typeDefs = `
 type User {
     _id: ID!
     username: String!
@@ -27,7 +27,7 @@ input InputBook {
     link: String
 }
 type Query {
-    me : User
+    me: User
 }
 
 type Mutation {
@@ -36,6 +36,6 @@ type Mutation {
     saveBook(newBook: InputBook!): User
     removeBook(bookId: ID!): User
 }
-`
+`;
 
 module.exports = typeDefs;
